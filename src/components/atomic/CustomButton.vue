@@ -8,12 +8,7 @@ const props = defineProps<Props>();
 
 <template>
   <!-- class="" -->
-  <button class="btn" :class="props.class">
+  <button class="text-white font-bold py-2 px-4 rounded" :class="props.class">
     <slot />
   </button>
 </template>
-<style scope>
-.btn {
-  @apply text-white font-bold py-2 px-4 rounded;
-}
-</style>
