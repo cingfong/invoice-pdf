@@ -1,12 +1,26 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, defineEmits } from "vue";
+import type { Ref } from "vue";
+
 type InputFormat = {
   text: string;
   model: string;
   type: string;
 };
 
-const InputFormat: InputFormat[] = [
+type formData = {
+  name: string | null;
+  criterion: string | null;
+  number: number | null;
+  unit: string | null;
+  price: number | null;
+  remark: string | null;
+  [key: string]: number | string | null;
+};
+
+const emits = defineEmits<{ addOrder: [data: formData] }>();
+
+const InputList: InputFormat[] = [
   { text: "輸入項目", model: "name", type: "text" },
   { text: "輸入規格", model: "criterion", type: "text" },
   { text: "輸入數量", model: "number", type: "number" },
@@ -15,7 +29,38 @@ const InputFormat: InputFormat[] = [
   { text: "輸入備註", model: "remark", type: "text" },
 ];
 
-const itemTotal = ref(0);
+const data: Ref<formData> = ref({
+  name: "",
+  criterion: "",
+  number: null,
+  unit: "",
+  price: null,
+  remark: "",
+});
+
+const editIndex: Ref<number | null> = ref(null);
+
+const itemTotal = computed(() => {
+  return (
+    ((data.value.price || 0) * 100 * (data.value.number || 0) * 100) / 10000
+  );
+});
+
+function addFormList() {
+  emits("addOrder", data.value);
+  // emit.addOrder(data);
+  // emit.addOrder(data):void;
+  // vm.formData.itemTotal = vm.itemTotal;
+  // 新增情況
+  // if (editIndex) {
+  // emit push data
+  // vm.formList.push({ ...vm.formData });
+  // } else {
+  // vm.formList.splice(vm.formEditIndex, 1, { ...vm.formData });
+  // vm.formEditIndex = "";
+  // }
+  // formDataRemove();
+}
 </script>
 <template>
   <div class="form-wrap mt-2">
@@ -30,13 +75,14 @@ const itemTotal = ref(0);
         </caption> -->
       <!-- 請款單or報價單 -->
       <div
-        v-for="(formatItem, key) in InputFormat"
+        v-for="(formatItem, key) in InputList"
         :key="key"
         class="relative z-0 w-full mb-5 group"
       >
         <input
           :type="formatItem.type"
           :name="formatItem.model"
+          v-model="data[formatItem.model as string]"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
           required
@@ -51,6 +97,7 @@ const itemTotal = ref(0);
       <button
         type="submit"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        @click="addFormList"
       >
         下一項
       </button>

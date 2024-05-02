@@ -18,8 +18,6 @@ const props = defineProps<{
 // function fromEdit<>(){
 
 // }
-
-console.log(props.orderList.length);
 </script>
 <template>
   <div class="w-[350px] relative overflow-x-auto">
