@@ -1,14 +1,24 @@
 <script setup lang="ts">
+import type { Ref } from "vue";
 import { ref } from "vue";
 // import CustomButton from "./components/atomic/CustomButton.vue";
 import OrderTable from "./components/OrderTable.vue";
 import OrderForm from "./components/OrderForm.vue";
 import HistoryModal from "./components/HistoryModal.vue";
 
-const orderList = ref([]);
+interface formData {
+  name: string | null;
+  spec: string | null;
+  number: number | null;
+  unit: string | null;
+  price: number | null;
+  itemTotal: number | null;
+  remark: string | null;
+}
+const orderList: Ref<Array<formData>> = ref([]);
 
-function addOrder(data) {
-  console.log(data);
+function addOrder(data: formData): void {
+  orderList.value.push(data);
 }
 </script>
 

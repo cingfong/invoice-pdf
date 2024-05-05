@@ -7,13 +7,13 @@ type InputFormat = {
   model: string;
   type: string;
 };
-
 type formData = {
   name: string | null;
-  criterion: string | null;
+  spec: string | null;
   number: number | null;
   unit: string | null;
   price: number | null;
+  itemTotal: number | null;
   remark: string | null;
   [key: string]: number | string | null;
 };
@@ -22,7 +22,7 @@ const emits = defineEmits<{ addOrder: [data: formData] }>();
 
 const InputList: InputFormat[] = [
   { text: "輸入項目", model: "name", type: "text" },
-  { text: "輸入規格", model: "criterion", type: "text" },
+  { text: "輸入規格", model: "spec", type: "text" },
   { text: "輸入數量", model: "number", type: "number" },
   { text: "輸入單位", model: "unit", type: "text" },
   { text: "輸入單價", model: "price", type: "number" },
@@ -31,11 +31,12 @@ const InputList: InputFormat[] = [
 
 const data: Ref<formData> = ref({
   name: "",
-  criterion: "",
+  spec: "",
   number: null,
   unit: "",
   price: null,
   remark: "",
+  itemTotal: null,
 });
 
 const editIndex: Ref<number | null> = ref(null);
@@ -47,6 +48,7 @@ const itemTotal = computed(() => {
 });
 
 function addFormList() {
+  data.value.itemTotal = itemTotal.value;
   emits("addOrder", data.value);
   // emit.addOrder(data);
   // emit.addOrder(data):void;
@@ -64,7 +66,7 @@ function addFormList() {
 </script>
 <template>
   <div class="form-wrap mt-2">
-    <form class="max-w-md mx-auto">
+    <div class="max-w-md mx-auto">
       <!-- <caption
           class="form-label px-2 d-flex justify-content-center align-items-center"
         >
@@ -82,10 +84,9 @@ function addFormList() {
         <input
           :type="formatItem.type"
           :name="formatItem.model"
-          v-model="data[formatItem.model as string]"
+          v-model="data[formatItem.model]"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
-          required
         />
         <label
           :for="formatItem.model"
@@ -113,6 +114,6 @@ function addFormList() {
       >
         刪除
       </button>
-    </form>
+    </div>
   </div>
 </template>
