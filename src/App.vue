@@ -1,18 +1,28 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 // import CustomButton from "./components/atomic/CustomButton.vue";
 import OrderTable from "./components/OrderTable.vue";
 import OrderForm from "./components/OrderForm.vue";
 import HistoryModal from "./components/HistoryModal.vue";
-import TotalBlock from './components/TotalBlock.vue'
-import {formData} from './composables/formData'
+import TotalBlock from "./components/TotalBlock.vue";
+import { formData } from "./composables/formData";
 
 const orderList: Ref<formData[]> = ref([]);
 
 function addOrder(data: formData): void {
   orderList.value.push(data);
 }
+
+// 總計計算
+const totalData = computed(() => {
+  const data = {
+    listTotal:undefined,
+    listTax:undefined,
+    listTaxIncluded:undefined
+  }
+  return data;
+});
 </script>
 
 <template>
@@ -21,7 +31,7 @@ function addOrder(data: formData): void {
     <HistoryModal />
     <!-- <CustomButton :class="'bg-red-500'">生成 PDF</CustomButton> -->
     <OrderTable class="w-[350px]" :order-list="orderList"></OrderTable>
-    <TotalBlock   class="w-[350px]" />
+    <TotalBlock :data="totalData" class="w-[350px]" />
   </div>
 </template>
 
