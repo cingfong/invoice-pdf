@@ -5,17 +5,10 @@ import { ref } from "vue";
 import OrderTable from "./components/OrderTable.vue";
 import OrderForm from "./components/OrderForm.vue";
 import HistoryModal from "./components/HistoryModal.vue";
+import TotalBlock from './components/TotalBlock.vue'
+import {formData} from './composables/formData'
 
-interface formData {
-  name: string | null;
-  spec: string | null;
-  number: number | null;
-  unit: string | null;
-  price: number | null;
-  itemTotal: number | null;
-  remark: string | null;
-}
-const orderList: Ref<Array<formData>> = ref([]);
+const orderList: Ref<formData[]> = ref([]);
 
 function addOrder(data: formData): void {
   orderList.value.push(data);
@@ -27,7 +20,8 @@ function addOrder(data: formData): void {
     <OrderForm @add-order="addOrder" class="w-[350px]" />
     <HistoryModal />
     <!-- <CustomButton :class="'bg-red-500'">生成 PDF</CustomButton> -->
-    <OrderTable :order-list="orderList"></OrderTable>
+    <OrderTable class="w-[350px]" :order-list="orderList"></OrderTable>
+    <TotalBlock   class="w-[350px]" />
   </div>
 </template>
 
