@@ -17,21 +17,23 @@ function addOrder(data: formData): void {
 // 總計計算
 const totalData = computed(() => {
   const data = {
-    listTotal:undefined,
-    listTax:undefined,
-    listTaxIncluded:undefined
-  }
+    listTotal: undefined,
+    listTax: undefined,
+    listTaxIncluded: undefined,
+  };
   return data;
 });
 </script>
 
 <template>
-  <div class="w-full flex items-center flex-col">
-    <OrderForm @add-order="addOrder" class="w-[350px]" />
-    <HistoryModal />
-    <!-- <CustomButton :class="'bg-red-500'">生成 PDF</CustomButton> -->
-    <OrderTable class="w-[350px]" :order-list="orderList"></OrderTable>
-    <TotalBlock :data="totalData" class="w-[350px]" />
+  <div class="min-h-[100vh]">
+    <div class="w-full min-h-full flex items-center flex-col">
+      <HistoryModal />
+      <OrderForm @add-order="addOrder" class="w-[350px]" />
+      <!-- <CustomButton :class="'bg-red-500'">生成 PDF</CustomButton> -->
+      <OrderTable class="w-[350px]" :order-list="orderList"></OrderTable>
+      <TotalBlock :data="totalData" class="w-[350px]" />
+    </div>
   </div>
 </template>
 
