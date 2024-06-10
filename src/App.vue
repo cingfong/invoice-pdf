@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Ref } from "vue";
-import { ref, computed } from "vue";
+import { ref, computed, Ref } from "vue";
 // import CustomButton from "./components/atomic/CustomButton.vue";
 import OrderTable from "./components/OrderTable.vue";
 import OrderForm from "./components/OrderForm.vue";
@@ -9,6 +8,7 @@ import TotalBlock from "./components/TotalBlock.vue";
 import { formData } from "./composables/formData";
 
 const orderList: Ref<formData[]> = ref([]);
+const formName = ref("");
 
 function addOrder(data: formData): void {
   orderList.value.push(data);
@@ -28,7 +28,7 @@ const totalData = computed(() => {
 <template>
   <div class="min-h-[100vh]">
     <div class="w-full min-h-full flex items-center flex-col">
-      <HistoryModal />
+      <HistoryModal v-model:form-name="formName" />
       <OrderForm @add-order="addOrder" class="w-[350px]" />
       <!-- <CustomButton :class="'bg-red-500'">生成 PDF</CustomButton> -->
       <OrderTable class="w-[350px]" :order-list="orderList"></OrderTable>

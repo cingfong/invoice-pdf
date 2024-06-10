@@ -1,11 +1,23 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+
 const isShow = ref(false);
+const formName = defineModel("formName");
+const loginIsShow = ref(false);
+
 function toggle(val?: boolean) {
   if (val !== undefined) {
     isShow.value = val;
   } else {
     isShow.value = !isShow.value;
+  }
+}
+
+function loginShow(val?: boolean) {
+  if (val !== undefined) {
+    loginIsShow.value = val;
+  } else {
+    loginIsShow.value = !loginIsShow.value;
   }
 }
 </script>
@@ -33,7 +45,7 @@ function toggle(val?: boolean) {
         d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
       />
     </svg>
-    請款單
+    {{ formName }}請款單
   </button>
 
   <!-- Main modal -->
@@ -48,11 +60,11 @@ function toggle(val?: boolean) {
         <div
           class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
         >
-          <h3 class="text-xl font-semibold text-gray-50">請輸入密碼</h3>
+          <h3 class="text-xl font-semibold text-gray-50">請輸入請款單名稱</h3>
           <button
             type="button"
             class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            @click="toggle(false)"
+            @click="() => toggle(false)"
           >
             <svg
               class="w-3 h-3"
@@ -73,29 +85,41 @@ function toggle(val?: boolean) {
           </button>
         </div>
         <div class="p-4 md:p-5">
-          <form class="space-y-4" action="#">
-            <div>
-              <input
-                name="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                required
-              />
-            </div>
-            <div class="flex justify-between">
-              <button
-                type="submit"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <h1 v-show="loginIsShow" class="text-xl font-semibold text-gray-50">
+            請輸入密碼
+          </h1>
+          <div>
+            <button
+              class="relative inline-flex items-center justify-center p-0.5 mb-4 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+              @click="loginShow(true)"
+            >
+              <span
+                class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-700 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
               >
-                登入
-              </button>
-              <button
-                type="submit"
-                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-              >
-                無帳號登入
-              </button>
-            </div>
-          </form>
+                登入帳號
+              </span>
+            </button>
+            <input
+              name="name"
+              v-model="formName"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              required
+            />
+          </div>
+          <div class="mt-4 flex justify-between">
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              確定
+            </button>
+            <button
+              type="button"
+              class="text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
+            >
+              切換成報價單
+            </button>
+          </div>
         </div>
       </div>
     </div>
