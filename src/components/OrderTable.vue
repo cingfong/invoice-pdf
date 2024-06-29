@@ -1,10 +1,23 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { formData } from "../type/formData";
-defineProps<{
-  // 陣列物件，類型帶調整
-  orderList: formData[];
-}>();
+interface Props{
+  orderList:formData[]
+}
+
+const props = withDefaults(defineProps<Props>(),{
+  orderList:()=>[
+  {
+    name: null,
+    spec: null,
+    number: null,
+    unit: null,
+    price: null,
+    itemTotal: null,
+    remark: null,
+  },
+  ]
+});
 </script>
 <template>
   <div class="relative overflow-x-auto">
@@ -26,7 +39,7 @@ defineProps<{
       </thead>
       <tbody>
         <tr
-          v-for="(fromItem, index) in orderList"
+          v-for="(fromItem, index) in props.orderList"
           :key="index"
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
         >
