@@ -19,10 +19,15 @@ const addOrder = (data: formData): void => {
 
 // 總計計算
 const totalData: Ref<totalData> = computed(() => {
+  const listTotal = orderList.value.reduce(
+    (total, item) => (total += item.itemTotal || 0),
+    0
+  );
+  const listTax = +(listTotal * 0.05).toFixed(2);
   return {
-    listTotal: undefined,
-    listTax: undefined,
-    listTaxIncluded: undefined,
+    listTotal,
+    listTax,
+    listTaxIncluded: listTotal + listTax,
   };
 });
 </script>
@@ -33,7 +38,7 @@ const totalData: Ref<totalData> = computed(() => {
       <HistoryModal v-model:form-name="formName" v-model:form-type="formType" />
       <OrderForm @add-order="addOrder" class="w-[350px]" />
       <!-- <CustomButton :class="'bg-red-500'">生成 PDF</CustomButton> -->
-      <OrderTable class="w-[350px]" :order-list="orderList"></OrderTable>
+      <OrderTable class="w-[350px]" :order-list="orderList" />
       <TotalBlock :data="totalData" class="w-[350px]" />
     </div>
   </div>
