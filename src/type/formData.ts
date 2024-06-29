@@ -1,4 +1,4 @@
-export type formData ={
+export type formData = {
   // 項目名稱
   name: string | null;
   // 規格
@@ -22,4 +22,13 @@ export type totalData = {
   listTax: number | undefined;
   // 總計
   listTaxIncluded: number | undefined;
+}
+
+export const enum FORM_TYPE {
+  // 請款
+  INVOICE = 0,
+
+  // 報價
+  QUOTE
+
 }
