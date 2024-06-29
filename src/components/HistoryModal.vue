@@ -1,20 +1,42 @@
 <script lang="ts" setup>
-import { Ref } from "vue";
+import { Ref, defineProps, defineEmits, onMounted } from "vue";
 
 import { useToggle } from "./utils/globalsMethods";
 
-const formName: Ref<string> = defineModel({ type: String, default: "" });
+const props = defineProps<{ formName: string }>();
 
-const [formNameModalShow, FormNameModalToggle] = useToggle();
+const emit = defineEmits<{
+  (event: "update:formName", value: string): void;
+}>();
+
+const formName: Ref<string> = defineModel({
+  type: String,
+  default: "",
+});
+
+const [formNameModalShow, formNameModalToggle] = useToggle();
 
 const [loginModalShow, loginModalToggle] = useToggle();
 
+onMounted(() => {
+  formName.value = props.formName;
+});
+
+const close = () => {
+  formNameModalToggle(false);
+  formName.value = props.formName;
+};
+
+const setFormName = () => {
+  emit("update:formName", formName.value);
+  close();
+};
 </script>
 <template>
   <button
     class="flex items-center text-gray-600 text-sm px-5 py-2.5"
     type="button"
-    @click="FormNameModalToggle()"
+    @click="formNameModalToggle(true)"
   >
     <svg
       class="w-6 h-6 text-gray-800 dark:text-white"
@@ -33,7 +55,7 @@ const [loginModalShow, loginModalToggle] = useToggle();
         d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
       />
     </svg>
-    {{ formName }}請款單
+    {{ props.formName }}請款單
   </button>
 
   <!-- Main modal -->
@@ -52,7 +74,7 @@ const [loginModalShow, loginModalToggle] = useToggle();
           <button
             type="button"
             class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            @click="FormNameModalToggle(false)"
+            @click="close"
           >
             <svg
               class="w-3 h-3"
@@ -73,7 +95,10 @@ const [loginModalShow, loginModalToggle] = useToggle();
           </button>
         </div>
         <div class="p-4 md:p-5">
-          <h1 v-show="loginModalShow" class="text-xl font-semibold text-gray-50">
+          <h1
+            v-show="loginModalShow"
+            class="text-xl font-semibold text-gray-50"
+          >
             請輸入密碼
           </h1>
           <div>
@@ -98,6 +123,7 @@ const [loginModalShow, loginModalToggle] = useToggle();
             <button
               type="submit"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              @click="setFormName"
             >
               確定
             </button>
