@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { ref, computed, defineEmits } from "vue";
-import type { Ref } from "vue";
+import { ref, Ref, computed, defineEmits } from "vue";
+import { type formData } from "../type/formData";
+
+const emits = defineEmits<{ addOrder: [data: formData] }>();
 
 type InputFormat = {
   text: string;
-  model: string;
+  model: keyof formData;
   type: string;
 };
-type formData = {
-  name: string | null;
-  spec: string | null;
-  number: number | null;
-  unit: string | null;
-  price: number | null;
-  itemTotal: number | null;
-  remark: string | null;
-  [key: string]: number | string | null;
-};
 
-const emits = defineEmits<{ addOrder: [data: formData] }>();
+const editIndex: Ref<number | null> = ref(null);
+
+const itemTotal = computed(() => {
+  // 避免浮點數誤差
+  return (
+    ((data.value.price || 0) * 100 * (data.value.number || 0) * 100) / 10000
+  );
+});
 
 const InputList: InputFormat[] = [
   { text: "輸入項目", model: "name", type: "text" },
@@ -35,46 +34,18 @@ const data: Ref<formData> = ref({
   number: null,
   unit: "",
   price: null,
-  remark: "",
   itemTotal: null,
-});
-
-const editIndex: Ref<number | null> = ref(null);
-
-const itemTotal = computed(() => {
-  return (
-    ((data.value.price || 0) * 100 * (data.value.number || 0) * 100) / 10000
-  );
+  remark: "",
 });
 
 function addFormList() {
   data.value.itemTotal = itemTotal.value;
   emits("addOrder", data.value);
-  // emit.addOrder(data);
-  // emit.addOrder(data):void;
-  // vm.formData.itemTotal = vm.itemTotal;
-  // 新增情況
-  // if (editIndex) {
-  // emit push data
-  // vm.formList.push({ ...vm.formData });
-  // } else {
-  // vm.formList.splice(vm.formEditIndex, 1, { ...vm.formData });
-  // vm.formEditIndex = "";
-  // }
-  // formDataRemove();
 }
 </script>
 <template>
   <div class="form-wrap mt-2">
     <div class="max-w-md mx-auto">
-      <!-- <caption
-          class="form-label px-2 d-flex justify-content-center align-items-center"
-        >
-          <b-icon icon="pencil-square" @click="titleFormShow = true" />
-          <span style="padding-left: 10px"
-            >{{ formTitle }}{{ formTypeString }}</span
-          >
-        </caption> -->
       <!-- 請款單or報價單 -->
       <div
         v-for="(formatItem, key) in InputList"
@@ -86,7 +57,7 @@ function addFormList() {
           :name="formatItem.model"
           v-model="data[formatItem.model]"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
+          placeholder=""
         />
         <label
           :for="formatItem.model"
@@ -95,25 +66,29 @@ function addFormList() {
         >
       </div>
       <p class="mt-2">小計 : {{ itemTotal }}</p>
-      <button
-        type="submit"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        @click="addFormList"
-      >
-        下一項
-      </button>
-      <button
-        type="button"
-        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-      >
-        清空
-      </button>
-      <button
-        type="button"
-        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-      >
-        刪除
-      </button>
+      <div class="w-full flex justify-between py-4">
+        <button
+          type="submit"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          @click="addFormList"
+        >
+          下一項
+        </button>
+        <button
+          v-show="!editIndex"
+          type="button"
+          class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        >
+          清空
+        </button>
+        <button
+          v-show="editIndex"
+          type="button"
+          class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        >
+          刪除
+        </button>
+      </div>
     </div>
   </div>
 </template>
