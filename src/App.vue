@@ -5,23 +5,23 @@ import OrderTable from "./components/OrderTable.vue";
 import OrderForm from "./components/OrderForm.vue";
 import HistoryModal from "./components/HistoryModal.vue";
 import TotalBlock from "./components/TotalBlock.vue";
-import { formData } from "./composables/formData";
+import type { formData, totalData } from "./type/formData";
 
 const orderList: Ref<formData[]> = ref([]);
 const formName = ref("");
 
-function addOrder(data: formData): void {
+// 新增請款項目
+const addOrder = (data: formData): void => {
   orderList.value.push(data);
-}
+};
 
 // 總計計算
-const totalData = computed(() => {
-  const data = {
+const totalData: Ref<totalData> = computed(() => {
+  return {
     listTotal: undefined,
     listTax: undefined,
     listTaxIncluded: undefined,
   };
-  return data;
 });
 </script>
 
