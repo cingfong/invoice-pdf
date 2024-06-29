@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
-import { formData } from "../composables/formData";
+import { formData } from "../type/formData";
 defineProps<{
   // 陣列物件，類型帶調整
   orderList: formData[];
