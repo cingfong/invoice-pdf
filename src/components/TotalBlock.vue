@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <div>
     <div class="w-full flex justify-end">
-      <div class="w-[180px]">
+      <div class="min-w-[180px]">
         <!-- <b-button v-if="editHistoryData" class="mb-0 mt-2" @click="cancelEdit">
       取消編輯
     </b-button> -->

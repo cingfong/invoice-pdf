@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { ref, Ref, computed, defineEmits } from "vue";
+import { ref, Ref, computed, defineEmits, defineProps } from "vue";
 import { type formData } from "../type/formData";
 
-const emits = defineEmits<{ addOrder: [data: formData] }>();
+const props = withDefaults(
+  defineProps<{ editIndex: number | null; orderList: formData[] }>(),
+  {
+    editIndex: null,
+    orderList: () => [],
+  }
+);
+
+const emits = defineEmits<{
+  (event: "addOrder", value: formData): void;
+  (event: "deleteFormItem"): void;
+}>();
 
 type InputFormat = {
   text: string;
   model: keyof formData;
   type: string;
 };
-
-const editIndex: Ref<number | null> = ref(null);
 
 const itemTotal = computed(() => {
   // 避免浮點數誤差
@@ -51,8 +60,14 @@ const resetForm = () => {
 function addFormList() {
   data.value.itemTotal = itemTotal.value;
   emits("addOrder", data.value);
-  resetForm()
+  resetForm();
 }
+
+// TODO: 待補編輯功能，目前傳入 list & index
+const editData = computed(() => {
+  if (props.editIndex === null) return null;
+  return props.orderList[props.editIndex];
+});
 </script>
 <template>
   <div class="form-wrap mt-2">
@@ -86,7 +101,7 @@ function addFormList() {
           下一項
         </button>
         <button
-          v-show="!editIndex"
+          v-show="props.editIndex === null"
           type="button"
           class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
           @click="resetForm"
@@ -94,9 +109,10 @@ function addFormList() {
           清空
         </button>
         <button
-          v-show="editIndex"
+          v-show="props.editIndex !== null"
           type="button"
           class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+          @click="emits('deleteFormItem')"
         >
           刪除
         </button>
