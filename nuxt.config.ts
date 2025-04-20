@@ -7,6 +7,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/icon',
     '@nuxt/test-utils',
-    '@nuxt/ui'
-  ]
+    '@nuxt/ui',
+    '@nuxt/eslint'
+  ],
+  css: ['~/assets/css/main.css']
 })
