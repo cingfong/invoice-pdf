@@ -1,12 +1,5 @@
 <script lang="ts" setup>
 const historyList = ref([]);
-const editItem = (item) => {
-  console.log(item);
-};
-
-const formatDate = (date) => {
-  if (!date) return "";
-};
 const isOpen = ref(false);
 
 const closeModal = () => {
