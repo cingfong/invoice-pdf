@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import TitleFormModal from "~/components/index/indexModal/indexModalTitle.vue";
+import TitleFormModal from "~/components/index/indexForm/indexFormModal/indexFormModalTitle.vue";
 
 const { values: formValues } = useFormContext();
 

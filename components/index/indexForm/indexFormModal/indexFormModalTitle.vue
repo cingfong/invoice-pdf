@@ -41,7 +41,7 @@ const handleHistory = () => {
   <UModal
     v-model:open="isOpen"
     :title="`請輸入${formTypeString}名稱`"
-    aria-describedby=""
+    aria-describedby="login-type-modal"
   >
     <template #body>
       <div class="flex flex-col gap-y-4">
