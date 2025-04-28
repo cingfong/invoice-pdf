@@ -16,13 +16,16 @@ importers:
         version: 3.17.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(magicast@0.3.5)(terser@5.39.0)(typescript@5.8.3)(yaml@2.7.1)
       '@nuxt/ui':
         specifier: 3.0.2
-        version: 3.0.2(@babel/parser@7.27.0)(@netlify/blobs@8.2.0)(db0@0.3.2)(embla-carousel@8.6.0)(ioredis@5.6.1)(jwt-decode@4.0.0)(magicast@0.3.5)(typescript@5.8.3)(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))(zod@3.24.3)
+        version: 3.0.2(@babel/parser@7.27.0)(@netlify/blobs@8.2.0)(db0@0.3.2)(embla-carousel@8.6.0)(ioredis@5.6.1)(jwt-decode@4.0.0)(magicast@0.3.5)(typescript@5.8.3)(universal-cookie@7.2.2)(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))(zod@3.24.3)
       '@vee-validate/nuxt':
         specifier: ^4.15.0
         version: 4.15.0(magicast@0.3.5)(vue@3.5.13(typescript@5.8.3))
       nuxt:
         specifier: ^3.16.2
         version: 3.16.2(@netlify/blobs@8.2.0)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.2)(eslint@9.25.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.29.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)
+      universal-cookie:
+        specifier: ^7
+        version: 7.2.2
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
@@ -1375,6 +1378,9 @@ packages:
   '@tybys/wasm-util@0.9.0':
     resolution: {integrity: sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==}
 
+  '@types/cookie@0.6.0':
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
+
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
@@ -2112,6 +2118,10 @@ packages:
 
   cookie-es@2.0.0:
     resolution: {integrity: sha512-RAj4E421UYRgqokKUmotqAwuplYw15qtdXfY+hGzgCJ/MBjCVZcSoHK/kH9kocfjRjcDME7IiDWR/1WX1TM2Pg==}
+
+  cookie@0.7.2:
+    resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
+    engines: {node: '>= 0.6'}
 
   cookie@1.0.2:
     resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
@@ -4677,6 +4687,9 @@ packages:
     resolution: {integrity: sha512-8jL3T+FKDg+qLFX55X9j92uFRqH5vWrNlf/eJb5IQlQB5q5wjooXQDXP1ulhJJQHbosBmlKhBo/ZVS5jHlcJGA==}
     engines: {node: '>=18.12.0'}
 
+  universal-cookie@7.2.2:
+    resolution: {integrity: sha512-fMiOcS3TmzP2x5QV26pIH3mvhexLIT0HmPa3V7Q7knRfT9HG6kTwq02HZGLPw0sAOXrAmotElGRvTLCMbJsvxQ==}
+
   unixify@1.0.0:
     resolution: {integrity: sha512-6bc58dPYhCMHHuwxldQxO3RRNZ4eCogZ/st++0+fcC1nr0jiGUtAdBJ2qzmLQWSxbtz42pWt4QQMiZ9HvZf5cg==}
     engines: {node: '>=0.10.0'}
@@ -6160,7 +6173,7 @@ snapshots:
       - typescript
       - yaml
 
-  '@nuxt/ui@3.0.2(@babel/parser@7.27.0)(@netlify/blobs@8.2.0)(db0@0.3.2)(embla-carousel@8.6.0)(ioredis@5.6.1)(jwt-decode@4.0.0)(magicast@0.3.5)(typescript@5.8.3)(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))(zod@3.24.3)':
+  '@nuxt/ui@3.0.2(@babel/parser@7.27.0)(@netlify/blobs@8.2.0)(db0@0.3.2)(embla-carousel@8.6.0)(ioredis@5.6.1)(jwt-decode@4.0.0)(magicast@0.3.5)(typescript@5.8.3)(universal-cookie@7.2.2)(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))(zod@3.24.3)':
     dependencies:
       '@iconify/vue': 4.3.0(vue@3.5.13(typescript@5.8.3))
       '@internationalized/date': 3.8.0
@@ -6176,7 +6189,7 @@ snapshots:
       '@tanstack/vue-table': 8.21.3(vue@3.5.13(typescript@5.8.3))
       '@unhead/vue': 2.0.8(vue@3.5.13(typescript@5.8.3))
       '@vueuse/core': 13.1.0(vue@3.5.13(typescript@5.8.3))
-      '@vueuse/integrations': 13.1.0(fuse.js@7.1.0)(jwt-decode@4.0.0)(vue@3.5.13(typescript@5.8.3))
+      '@vueuse/integrations': 13.1.0(fuse.js@7.1.0)(jwt-decode@4.0.0)(universal-cookie@7.2.2)(vue@3.5.13(typescript@5.8.3))
       colortranslator: 4.1.0
       consola: 3.4.2
       defu: 6.1.4
@@ -6682,6 +6695,8 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
+  '@types/cookie@0.6.0': {}
+
   '@types/doctrine@0.0.9': {}
 
   '@types/estree@1.0.7': {}
@@ -7083,7 +7098,7 @@ snapshots:
       '@vueuse/shared': 13.1.0(vue@3.5.13(typescript@5.8.3))
       vue: 3.5.13(typescript@5.8.3)
 
-  '@vueuse/integrations@13.1.0(fuse.js@7.1.0)(jwt-decode@4.0.0)(vue@3.5.13(typescript@5.8.3))':
+  '@vueuse/integrations@13.1.0(fuse.js@7.1.0)(jwt-decode@4.0.0)(universal-cookie@7.2.2)(vue@3.5.13(typescript@5.8.3))':
     dependencies:
       '@vueuse/core': 13.1.0(vue@3.5.13(typescript@5.8.3))
       '@vueuse/shared': 13.1.0(vue@3.5.13(typescript@5.8.3))
@@ -7091,6 +7106,7 @@ snapshots:
     optionalDependencies:
       fuse.js: 7.1.0
       jwt-decode: 4.0.0
+      universal-cookie: 7.2.2
 
   '@vueuse/metadata@10.11.1': {}
 
@@ -7490,6 +7506,8 @@ snapshots:
   cookie-es@1.2.2: {}
 
   cookie-es@2.0.0: {}
+
+  cookie@0.7.2: {}
 
   cookie@1.0.2: {}
 
@@ -10330,6 +10348,11 @@ snapshots:
       tinyglobby: 0.2.12
       unplugin: 2.3.2
       unplugin-utils: 0.2.4
+
+  universal-cookie@7.2.2:
+    dependencies:
+      '@types/cookie': 0.6.0
+      cookie: 0.7.2
 
   unixify@1.0.0:
     dependencies:

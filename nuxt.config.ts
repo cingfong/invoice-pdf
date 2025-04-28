@@ -11,5 +11,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@vee-validate/nuxt',
   ],
+  imports: {
+    autoImport: false
+  },
   css: ['~/assets/css/main.css']
 })
