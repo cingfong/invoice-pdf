@@ -1,15 +1,29 @@
 <script lang="ts" setup>
+import { useForm } from "#imports";
 import IndexFormFillContent from "~/components/index/indexForm/IndexFormFillContent.vue";
 import IndexFormTitle from "~/components/index/indexForm/IndexFormTitle.vue";
+import IndexTable from "~/components/index/IndexTable.vue";
+import IndexTotal from "~/components/index/IndexTotal.vue";
+import type { FormItem } from "~/constant/form";
 
-useForm();
-
-const handleSetFormItem = () => {
-  console.log("handleSetFormItem");
-};
-const handleDeleteFormItem = () => {
-  console.log("handleDeleteFormItem");
-};
+useForm({
+  initialValues: {
+    id: undefined,
+    order_list: [] as FormItem[],
+    order_title: "",
+    order_type: false,
+    user_id: undefined,
+    order_item: {
+      name: undefined,
+      criterion: undefined,
+      number: undefined,
+      unit: undefined,
+      price: undefined,
+      remark: undefined,
+      itemTotal: undefined,
+    } as FormItem,
+  },
+});
 
 const submit = () => {
   console.log("submit");
@@ -19,12 +33,8 @@ const submit = () => {
   <form class="max-w-xl mx-auto min-h-screen p-0">
     <div class="bg-white rounded-lg p-5 m-4 shadow-lg backdrop-blur-sm">
       <IndexFormTitle />
-
       <div class="space-y-4">
-        <IndexFormFillContent
-          @set-form-item="handleSetFormItem"
-          @handle-delete-form-item="handleDeleteFormItem"
-        />
+        <IndexFormFillContent />
       </div>
 
       <!-- Items Table -->

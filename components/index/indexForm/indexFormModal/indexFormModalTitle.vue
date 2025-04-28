@@ -1,8 +1,16 @@
 <script lang="ts" setup>
+import { computed, ref, useFormContext, watch } from "#imports";
+import { COOKIE_KEY } from "@/constant/cookie";
+import { useCookies } from "@vueuse/integrations/useCookies";
+import IndexFormModalHistory from "@/components/index/indexForm/indexFormModal/IndexFormModalHistory.vue";
+import IndexFormModalLogin from "@/components/index/indexForm/indexFormModal/IndexFormModalLogin.vue";
+
 const { values: formValues, setFieldValue } = useFormContext();
 
-// TODO: 待補
-const userAuth = ref(false);
+const cookie = useCookies([COOKIE_KEY.TOKEN]);
+const token = cookie.get(COOKIE_KEY.TOKEN);
+
+const userAuth = computed(() => !!token);
 
 const isOpen = ref(false);
 const formTitle = ref(undefined);
@@ -28,12 +36,8 @@ const toggleFormType = () => {
   setFieldValue("formType", !formValues.formType);
 };
 
-const handleLogin = () => {
-  console.log("handleLogin");
-};
-
-const handleHistory = () => {
-  console.log("handleHistory");
+const closeModal = () => {
+  isOpen.value = false;
 };
 </script>
 
@@ -46,43 +50,39 @@ const handleHistory = () => {
     <template #body>
       <div class="flex flex-col gap-y-4">
         <div class="flex gap-2">
-          <template v-if="userAuth">
-            <LoginModal>
+          <template v-if="!userAuth">
+            <IndexFormModalLogin>
               <UButton
                 block
                 color="warning"
                 variant="outline"
                 icon="i-heroicons-user"
                 class="transition-colors"
-                @click="handleLogin"
               >
                 登入帳號
               </UButton>
-            </LoginModal>
+            </IndexFormModalLogin>
           </template>
           <template v-else>
-            <HistoryModal>
+            <IndexFormModalHistory @close-modal="closeModal">
               <UButton
                 block
                 color="secondary"
                 variant="solid"
                 icon="i-heroicons-clock"
                 class="transition-colors"
-                @click="handleHistory"
               >
                 搜尋歷史紀錄
               </UButton>
-            </HistoryModal>
+            </IndexFormModalHistory>
           </template>
         </div>
 
-        <!-- <UFormGroup> -->
         <UInput
           v-model:model-value="formTitle"
           :placeholder="`請輸入${formTypeString}名稱`"
           class="w-full focus:border-primary-500"
         />
-        <!-- </UFormGroup> -->
       </div>
     </template>
 

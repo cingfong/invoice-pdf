@@ -1,8 +1,16 @@
 <script lang="ts" setup>
-const { values: formValues } = useForm();
+import { computed } from "vue";
+import type { FormItem } from "~/constant/form";
+
+const props = defineProps<{
+  editItem: FormItem;
+}>();
 
 const itemTotal = computed(() => {
-  return (formValues.price * 100 * formValues.number * 100) / 10000;
+  const _itemPrice = (props.editItem.price ?? 0) as number;
+  const _itemNumber = (props.editItem.number ?? 0) as number;
+  // 處理雙晶浮點數
+  return (_itemPrice * 100 * _itemNumber * 100) / 10000;
 });
 </script>
 <template>

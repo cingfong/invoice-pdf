@@ -1,19 +1,9 @@
-<script lang="ts">
-export type FormItem = {
-  name: string;
-  criterion: string;
-  number: string;
-  unit: string;
-  price: string;
-  remark: string;
-};
-</script>
 <script lang="ts" setup>
-type FillContentEmit = {
-  setFormItem: (content: FormItem) => void;
-};
-
-const emit = defineEmits<FillContentEmit>();
+import { ref, toRaw, useFormContext } from "#imports";
+import { watchImmediate } from "@vueuse/core";
+import { IndexIndexFormTotal } from "#components";
+import IndexFormButtons from "@/components/index/indexForm/IndexFormButtons.vue";
+import type { FormItem, FormItemKey } from "~/constant/form";
 
 const inputList = [
   {
@@ -49,27 +39,47 @@ const inputList = [
   },
 ];
 
-const currentFormData = ref<FormItem>({
+const { values: formValues, setFieldValue } = useFormContext();
+
+const editOrderItem = ref<FormItem>({
   name: "",
   criterion: "",
-  number: "",
+  number: undefined,
   unit: "",
-  price: "",
+  price: undefined,
   remark: "",
+  itemTotal: undefined,
 });
 
+watchImmediate(
+  () => formValues.order_item,
+  (value) => {
+    editOrderItem.value = structuredClone(toRaw(value));
+  }
+);
+
 const handleAddFormList = () => {
-  console.log("addFormList");
-  emit("setFormItem", currentFormData.value);
+  setFieldValue("order_list", [...formValues.order_list, editOrderItem.value]);
+
+  setFieldValue("order_item", {
+    name: "",
+    criterion: "",
+    number: undefined,
+    unit: "",
+    price: undefined,
+    remark: "",
+    itemTotal: undefined,
+  });
 };
 
 const handleDeleteFormList = () => {
   console.log("deleteFormList");
-  emit("setFormItem", currentFormData.value);
 };
 
 const handleFormDataRemove = () => {
-  console.log("formDataRemove");
+  for (const key in formValues.order_item) {
+    formValues.order_item[key as FormItemKey] = undefined;
+  }
 };
 </script>
 <template>
@@ -82,18 +92,17 @@ const handleFormDataRemove = () => {
       {{ inputItem.text }}
     </label>
     <input
-      v-model="currentFormData[inputItem.model as keyof typeof currentFormData]"
+      v-model="editOrderItem[inputItem.model as FormItemKey]"
       :type="inputItem.type"
       :placeholder="inputItem.text"
       class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-slate-800 bg-slate-50/80 backdrop-blur-sm transition-all focus:outline-none focus:border-blue-500 focus:bg-white focus:shadow"
-      required
-    >
+    />
   </div>
-  <IndexIndexFormTotal />
+  <IndexIndexFormTotal :edit-item="editOrderItem" />
   <IndexFormButtons
     :is-edit="true"
     @add-form-list="handleAddFormList"
     @delete-form-list="handleDeleteFormList"
-    @form-data-remove="handleFormDataRemove"
+    @form-item-remove="handleFormDataRemove"
   />
 </template>
