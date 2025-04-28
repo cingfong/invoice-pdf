@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-const formList = ref([]);
+import { useFormContext } from "#imports";
+import { computed } from "vue";
+import type { FormItem } from "~/constant/form";
+
+const { values: formValues } = useFormContext();
+
 const listTotal = computed(() => {
-  return formList.value.reduce((total, item) => total + item.itemTotal, 0);
+  return formValues.order_list.reduce(
+    (total: number, item: FormItem) => total + (Number(item.price) as number),
+    0
+  );
 });
 
 const listTax = computed(() => {
@@ -11,13 +19,18 @@ const listTax = computed(() => {
 const listTaxIncluded = computed(() => {
   return listTotal.value + listTax.value;
 });
+const cancelEdit = () => {
+  console.log("cancelEdit");
+};
 </script>
 <template>
   <div
     class="mt-5 p-4 bg-slate-50 rounded-xl shadow-md border border-slate-200"
   >
+    <!-- TODO: -->
+    <!-- v-if="editHistoryData" -->
     <button
-      v-if="editHistoryData"
+      type="button"
       class="w-full px-4 py-2.5 rounded-lg border-none text-sm font-medium cursor-pointer transition-all flex items-center gap-2 justify-center bg-slate-600 text-white hover:-translate-y-0.5 hover:shadow-md hover:bg-slate-700 active:translate-y-0 active:shadow-sm mb-3"
       @click="cancelEdit"
     >
