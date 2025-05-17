@@ -4,7 +4,7 @@ import IndexFormModalTitle from "~/components/index/indexForm/indexFormModal/Ind
 
 const { values: formValues } = useFormContext();
 
-const formTypeString = computed(() =>
+const orderTypeTransformString = computed(() =>
   formValues.order_type ? "請款單 " : "報價單"
 );
 </script>
@@ -19,7 +19,7 @@ const formTypeString = computed(() =>
       </button>
     </IndexFormModalTitle>
     <h1 class="text-xl font-semibold text-slate-800 m-0">
-      {{ formValues.formTitle }}{{ formTypeString }}
+      {{ formValues.order_title }}{{ orderTypeTransformString }}
     </h1>
   </div>
 </template>

@@ -2,10 +2,11 @@
 import { ref, onMounted, h } from "vue";
 import type { TableColumn, TableRow } from "@nuxt/ui";
 import { UButton } from "#components";
-import { useFormContext } from "#imports";
+import { useFormContext, useOverlay } from "#imports";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import { COOKIE_KEY } from "~/constant/cookie";
 import type { FormOrderBody } from "~/server/api/updateOrder.patch";
+import ModalDelete from "~/components/layout/modalDelete.vue";
 
 type IndexFormModalHistoryEmits = {
   (e: "closeModal"): void;
@@ -13,15 +14,22 @@ type IndexFormModalHistoryEmits = {
 
 const emit = defineEmits<IndexFormModalHistoryEmits>();
 
-const { resetForm } = useFormContext();
-
-const isOpen = ref(false);
-
-const historyList = ref<FormOrderBody[]>([]);
-
 const cookie = useCookies([COOKIE_KEY.TOKEN]);
 const token = cookie.get(COOKIE_KEY.TOKEN);
 
+const { resetForm } = useFormContext();
+
+// 當前彈窗是否開啟
+const isOpen = ref(false);
+const isHistoryLoading = ref(false);
+
+// 歷史記錄列表
+const historyList = ref<FormOrderBody[]>([]);
+
+// 當前表單資料
+const { values: formValues } = useFormContext();
+
+// 獲取歷史記錄列表
 onMounted(() => {
   if (token) {
     $fetch("/api/history", {
@@ -34,16 +42,38 @@ onMounted(() => {
 
 const closeModal = () => {
   isOpen.value = false;
+  emit("closeModal");
 };
 
 const handleEditItem = (formOrderBody: FormOrderBody) => {
   resetForm({ values: formOrderBody });
 };
 
-const handleDeleteItem = (id: number) => {
-  console.log("delete", id);
-};
+// #region 刪除彈窗
+const overlay = useOverlay();
+const modal = overlay.create(ModalDelete, {
+  props: {
+    onCloseModal: () => {
+      modal.close();
+    },
+  },
+});
+// #endregion
 
+// #region 刪除歷史記錄
+const handleDeleteItem = (id: number) => {
+  isHistoryLoading.value = true;
+  $fetch(`/api/deleteOrder`, {
+    method: "DELETE",
+    body: { id },
+  }).then(() => {
+    modal.open();
+    isHistoryLoading.value = false;
+  });
+};
+// #endregion
+
+// #region 歷史記錄列表
 const columns = [
   {
     accessorKey: "updated_at",
@@ -84,6 +114,8 @@ const columns = [
             variant: "outline",
             square: true,
             label: "編輯",
+            class: row.original.id === formValues.id ? "!opacity-30" : "",
+            disabled: row.original.id === formValues.id,
             onClick: () => {
               handleEditItem(row.original);
               isOpen.value = false;
@@ -95,8 +127,10 @@ const columns = [
             variant: "subtle",
             square: true,
             label: "刪除",
+            class: row.original.id === formValues.id ? "!opacity-30" : "",
+            disabled: row.original.id === formValues.id,
             onClick: () => {
-              handleDeleteItem(row.index);
+              handleDeleteItem(row.original.id);
               emit("closeModal");
             },
           }),
@@ -104,22 +138,25 @@ const columns = [
       );
     },
   },
-];
+] as TableColumn<FormOrderBody>[];
+// #endregion
 </script>
 
 <template>
   <UModal
     v-model:open="isOpen"
     title="歷史記錄"
+    description="請選擇要編輯的歷史記錄"
     aria-describedby="history-modal"
   >
     <template #body>
       <div class="max-h-96 overflow-y-auto">
         <UTable
-          :columns="columns as TableColumn<FormOrderBody>[]"
+          :loading="isHistoryLoading"
           :data="historyList"
           class="flex-1"
           empty="暫無歷史記錄"
+          :columns="columns"
         />
       </div>
     </template>
