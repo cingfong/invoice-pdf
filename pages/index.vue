@@ -7,31 +7,37 @@ import IndexTotal from "~/components/index/IndexTotal.vue";
 import type { FormItem } from "~/constant/form";
 
 useForm({
-  initialValues: {
-    id: undefined,
-    order_list: [] as FormItem[],
-    order_title: "",
-    order_type: false,
-    user_id: undefined,
-    order_item: {
-      name: undefined,
-      criterion: undefined,
-      number: undefined,
-      unit: undefined,
-      price: undefined,
-      remark: undefined,
-      itemTotal: undefined,
-    } as FormItem,
-  },
+  initialValues: { ...initialFormData },
 });
 
 const submit = () => {
   console.log("submit");
 };
 </script>
+<script lang="ts">
+export const initialFormData = {
+  id: undefined,
+  order_list: [] as FormItem[],
+  order_title: "",
+  order_type: false,
+  user_id: undefined,
+  order_item: {
+    name: undefined,
+    criterion: undefined,
+    number: undefined,
+    unit: undefined,
+    price: undefined,
+    remark: undefined,
+    itemTotal: undefined,
+  } as FormItem,
+  order_item_index: undefined,
+};
+</script>
 <template>
   <form class="max-w-xl mx-auto min-h-screen p-0">
-    <div class="bg-white rounded-lg p-5 m-4 shadow-lg backdrop-blur-sm">
+    <div
+      class="bg-slate-200 bg-opacity-90 rounded-lg p-5 m-4 shadow-lg backdrop-blur-sm"
+    >
       <IndexFormTitle />
       <div class="space-y-4">
         <IndexFormFillContent />
@@ -47,7 +53,7 @@ const submit = () => {
       <!-- Total Section -->
       <IndexTotal />
       <button
-        class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white border-none rounded-lg text-base font-semibold mt-5 cursor-pointer transition-all flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:from-blue-700 hover:to-blue-800 active:translate-y-0 active:shadow-sm"
+        class="w-full py-3.5 bg-gradient-to-r from-blue-700 to-blue-800 text-white border-none rounded-lg text-base font-semibold mt-5 cursor-pointer transition-all flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:from-blue-800 hover:to-blue-900 active:translate-y-0 active:shadow-sm"
         @click="submit"
       >
         <UIcon name="i-heroicons-document-arrow-down" class="w-5 h-5" />

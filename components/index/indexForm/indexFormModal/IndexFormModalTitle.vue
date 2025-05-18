@@ -12,28 +12,29 @@ const token = cookie.get(COOKIE_KEY.TOKEN);
 
 const userAuth = computed(() => !!token);
 
+const toggleFormType = () => {
+  setFieldValue("order_type", !formValues.order_type);
+};
+
+const formTypeString = computed(() =>
+  formValues.order_type ? "請款單" : "報價單"
+);
+
 const isOpen = ref(false);
 const formTitle = ref(undefined);
 
+// 關閉彈窗時，清空 input 資料
 watch(isOpen, (newVal) => {
   if (newVal) {
-    formTitle.value = formValues.formTitle;
+    formTitle.value = formValues.order_title;
   } else {
     formTitle.value = undefined;
   }
 });
 
 const setFormTitle = () => {
-  setFieldValue("formTitle", formTitle.value);
+  setFieldValue("order_title", formTitle.value);
   isOpen.value = false;
-};
-
-const formTypeString = computed(() =>
-  formValues.formType ? "請款單" : "報價單"
-);
-
-const toggleFormType = () => {
-  setFieldValue("formType", !formValues.formType);
 };
 
 const closeModal = () => {
@@ -45,7 +46,7 @@ const closeModal = () => {
   <UModal
     v-model:open="isOpen"
     :title="`請輸入${formTypeString}名稱`"
-    aria-describedby="login-type-modal"
+    description="請輸入報價單或請款單名稱"
   >
     <template #body>
       <div class="flex flex-col gap-y-4">

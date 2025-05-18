@@ -8,7 +8,14 @@ const { values: formValues } = useFormContext();
 const columns = [
   {
     accessorKey: "name",
-    header: "施工項目",
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-list-bullet",
+          class: "w-4 h-4 text-indigo-600",
+        }),
+        h("span", "施工項目"),
+      ]),
     meta: {
       class: {
         td: "w-[120px]",
@@ -17,7 +24,14 @@ const columns = [
   },
   {
     accessorKey: "criterion",
-    header: () => h("div", { class: "text-center" }, "規格"),
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-adjustments-vertical",
+          class: "w-4 h-4 text-amber-600",
+        }),
+        h("span", "規格"),
+      ]),
     meta: {
       class: {
         td: "w-[120px]",
@@ -26,7 +40,14 @@ const columns = [
   },
   {
     accessorKey: "number",
-    header: () => h("div", { class: "text-center" }, "數量"),
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-calculator",
+          class: "w-4 h-4 text-emerald-600",
+        }),
+        h("span", "數量"),
+      ]),
     meta: {
       class: {
         td: "w-[120px]",
@@ -35,7 +56,14 @@ const columns = [
   },
   {
     accessorKey: "unit",
-    header: () => h("div", { class: "text-center" }, "單位"),
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-scale",
+          class: "w-4 h-4 text-violet-600",
+        }),
+        h("span", "單位"),
+      ]),
     meta: {
       class: {
         td: "w-[120px]",
@@ -44,7 +72,14 @@ const columns = [
   },
   {
     accessorKey: "price",
-    header: () => h("div", { class: "text-center" }, "單價"),
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-currency-dollar",
+          class: "w-4 h-4 text-rose-600",
+        }),
+        h("span", "單價"),
+      ]),
     meta: {
       class: {
         td: "w-[120px]",
@@ -53,7 +88,14 @@ const columns = [
   },
   {
     accessorKey: "remark",
-    header: () => h("div", { class: "text-center" }, "備註"),
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-document-text",
+          class: "w-4 h-4 text-sky-600",
+        }),
+        h("span", "備註"),
+      ]),
     meta: {
       class: {
         td: "w-[120px]",
@@ -64,8 +106,8 @@ const columns = [
 
 const { setFieldValue } = useFormContext();
 const handleEditItem = (column: FormItem, index: number) => {
-  console.log(column, index);
   setFieldValue("order_item", column);
+  setFieldValue("order_item_index", index);
 };
 </script>
 <template>
@@ -73,15 +115,14 @@ const handleEditItem = (column: FormItem, index: number) => {
     :ui="{
       root: 'overflow-auto',
       base: 'min-w-[560px]',
-      th: 'text-gray-800 text-center',
-      td: 'text-center',
+      th: 'text-gray-800 text-center py-3 text-nowrap',
+      td: 'text-center text-gray-500 py-2.5',
     }"
     :columns="columns"
     :data="formValues.order_list"
     class="flex-1"
     empty="暫無歷史記錄"
   >
-    <!-- 用 slot 來自訂 name 欄位 -->
     <template #name-cell="{ row }">
       <div class="flex justify-start gap-1 items-center">
         <UButton
