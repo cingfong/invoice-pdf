@@ -14,9 +14,12 @@ const closeModal = () => {
       <div class="flex w-full items-center justify-center">
         <h3 class="text-lg font-medium text-gray-100">儲存成功</h3>
       </div>
-      <div class="absolute top-4 right-4">
+      <button
+        class="absolute top-4 right-4 rounded size-7 flex justify-center items-center transition-colors hover:bg-gray-700"
+        @click="closeModal"
+      >
         <UIcon name="i-lucide:x" class="size-6 text-white" />
-      </div>
+      </button>
     </template>
 
     <template #body>
