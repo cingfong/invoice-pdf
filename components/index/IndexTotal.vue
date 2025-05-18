@@ -15,7 +15,7 @@ const listTotal = computed(() => {
 });
 
 const listTax = computed(() => {
-  return +(listTotal.value * 0.05).toFixed(2);
+  return Math.round(listTotal.value * 0.05);
 });
 
 const listTaxIncluded = computed(() => {
