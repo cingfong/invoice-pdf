@@ -13,7 +13,7 @@ const orderTypeTransformString = computed(() =>
     <IndexFormModalTitle>
       <button
         type="button"
-        class="bg-transparent border-none flex items-center justify-center text-slate-500 cursor-pointer p-1 rounded-full transition-all hover:bg-slate-100 hover:text-slate-800 hover:rotate-12"
+        class="bg-transparent border-none flex items-center justify-center text-slate-500 cursor-pointer p-1 rounded-full transition-all hover:bg-slate-200 hover:text-slate-800 hover:rotate-12"
       >
         <UIcon name="i-heroicons-pencil-solid" class="w-6 h-6" />
       </button>
