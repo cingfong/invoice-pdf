@@ -1,11 +1,20 @@
 <script lang="ts" setup>
 import { UButton, UIcon } from "#components";
-import { h, useFormContext } from "#imports";
+import { h, useFormContext, type VNode } from "#imports";
 import type { FormItem } from "~/constant/form";
+import IndexTablePrint from "@/components/index/IndexTablePrint.vue";
+import type { initialFormData } from "~/pages/index.vue";
 
-const { values: formValues } = useFormContext();
+type Column = {
+  accessorKey: keyof FormItem | "total";
+  text: string;
+  header: () => VNode;
+  meta: { class: { td: string } };
+};
 
-const columns = [
+const { values: formValues } = useFormContext<typeof initialFormData>();
+
+const columns: Column[] = [
   {
     accessorKey: "name",
     text: "施工項目",
