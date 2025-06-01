@@ -1,75 +1,93 @@
-# Nuxt Minimal Starter
+# 發票與帳單 PDF 產生系統
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+這是一個基於 Nuxt.js 開發的網頁應用程式，主要用途是紀錄帳單資料並生成 PDF 格式的發票或帳單文件。
 
-## Setup
+## 技術堆疊
 
-Make sure to install dependencies:
+- **前端框架**: [Nuxt 3](https://nuxt.com/) (Vue 3 框架)
+- **UI 組件**: [@nuxt/ui](https://ui.nuxt.com/)
+- **表單驗證**: [VeeValidate](https://vee-validate.logaretm.com/)
+- **樣式**: [Tailwind CSS](https://tailwindcss.com/)
+- **資料庫連接**: [Neon Database](https://neon.tech/) (Serverless Postgres)
+
+## 功能特點
+
+- 建立和管理帳單記錄
+- 計算訂單項目總價
+- 生成 PDF 格式的發票/帳單
+- 儲存和檢視歷史帳單記錄
+
+## 安裝與設定
+
+### 前置需求
+
+- Node.js (建議版本: 20.x 或更高)
+- pnpm (推薦) 或 npm
+
+### 安裝步驟
+
+1. 克隆專案：
 
 ```bash
-# npm
-npm install
+git clone [專案 URL]
+cd invoice-pdf
+```
 
-# pnpm
+2. 安裝相依套件：
+
+```bash
+# 使用 pnpm
 pnpm install
 
-# yarn
-yarn install
-
-# bun
-bun install
+# 或使用 npm
+npm install
 ```
 
-## Development Server
+## 開發環境
 
-Start the development server on `http://localhost:3000`:
+啟動開發伺服器 (預設位址為 `http://localhost:3000`):
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
+# 使用 pnpm
 pnpm dev
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
+# 或使用 npm
+npm run dev
 ```
 
-## Production
+## 建置與部署
 
-Build the application for production:
+建置生產版本：
 
 ```bash
-# npm
-npm run build
-
-# pnpm
+# 使用 pnpm
 pnpm build
 
-# yarn
-yarn build
-
-# bun
-bun run build
+# 或使用 npm
+npm run build
 ```
 
-Locally preview production build:
+本機預覽生產版本：
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
+# 使用 pnpm
 pnpm preview
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
+# 或使用 npm
+npm run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 專案結構說明
+
+- `pages/`: 網頁路由和主要頁面
+- `components/`: 可重複使用的 Vue 組件
+- `server/api/`: API 端點處理
+- `constant/`: 常數和型別定義
+- `assets/`: 全域 CSS 和靜態資源
+
+更多關於部署的資訊，請參考 [Nuxt 部署文件](https://nuxt.com/docs/getting-started/deployment)。
+
+<!-- TODO: 待補  -->
+
+- 錯誤彈窗顯示
+- MERGE 沒有刪除分支以及新增 commit 的點
