@@ -10,6 +10,7 @@ import IndexTable from "~/components/index/IndexTable.vue";
 import IndexTotal from "~/components/index/IndexTotal.vue";
 import { COOKIE_KEY } from "~/constant/cookie";
 import type { FormItem } from "~/constant/form";
+import type { UserInfo } from "~/server/api/userInfo.get";
 
 // #region 取得使用者資訊
 const cookie = useCookies([COOKIE_KEY.TOKEN]);
@@ -18,13 +19,13 @@ const token = cookie.get(COOKIE_KEY.TOKEN);
 const { data: userInfo, execute } = await useAsyncData(
   "usersInfo",
   () =>
-    $fetch(`/api/userInfo?token=${token}`, {
+    $fetch<UserInfo>(`/api/userInfo?token=${token}`, {
       method: "GET",
     }),
   {
     server: false,
     immediate: true,
-    transform: (data) => data[0],
+    transform: (data) => data,
   }
 );
 
