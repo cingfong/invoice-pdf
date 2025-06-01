@@ -14,5 +14,12 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false
   },
+  vite: {
+    resolve: {
+      alias: {
+        'jspdf': 'jspdf/dist/jspdf.es.js'
+      }
+    }
+  },
   css: ['~/assets/css/main.css']
 })
