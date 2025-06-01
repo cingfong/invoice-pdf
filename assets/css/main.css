@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+body,
+html {
+  overscroll-behavior-y: none;
+}
