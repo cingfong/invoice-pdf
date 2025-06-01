@@ -8,6 +8,7 @@ const { values: formValues } = useFormContext();
 const columns = [
   {
     accessorKey: "name",
+    text: "施工項目",
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -24,6 +25,7 @@ const columns = [
   },
   {
     accessorKey: "criterion",
+    text: "規格",
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -40,6 +42,7 @@ const columns = [
   },
   {
     accessorKey: "number",
+    text: "數量",
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -56,6 +59,7 @@ const columns = [
   },
   {
     accessorKey: "unit",
+    text: "單位",
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -72,6 +76,7 @@ const columns = [
   },
   {
     accessorKey: "price",
+    text: "單價",
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -87,7 +92,26 @@ const columns = [
     },
   },
   {
+    accessorKey: "total",
+    text: "小計",
+
+    header: () =>
+      h("div", { class: "flex items-center justify-center gap-2" }, [
+        h(UIcon, {
+          name: "i-heroicons-chart-bar",
+          class: "w-4 h-4 text-green-600",
+        }),
+        h("span", "小計"),
+      ]),
+    meta: {
+      class: {
+        td: "w-[120px]",
+      },
+    },
+  },
+  {
     accessorKey: "remark",
+    text: "備註",
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -111,31 +135,41 @@ const handleEditItem = (column: FormItem, index: number) => {
 };
 </script>
 <template>
-  <UTable
-    :ui="{
-      root: 'overflow-auto',
-      base: 'min-w-[560px]',
-      th: 'text-gray-800 text-center py-3 text-nowrap',
-      td: 'text-center text-gray-500 py-2.5',
-    }"
-    :columns="columns"
-    :data="formValues.order_list"
-    class="flex-1"
-    empty="暫無歷史記錄"
-  >
-    <template #name-cell="{ row }">
-      <div class="flex justify-start gap-1 items-center">
-        <UButton
-          color="info"
-          variant="outline"
-          square
-          class="p-1"
-          @click="handleEditItem(row.original as FormItem, row.index)"
-        >
-          <UIcon name="i-heroicons-pencil-square-20-solid" class="w-5 h-5" />
-        </UButton>
-        <p>{{ row.original.name }}</p>
-      </div>
-    </template>
-  </UTable>
+  <div>
+    <IndexTablePrint :columns="columns" :form-values="formValues" />
+    <UTable
+      :ui="{
+        root: 'overflow-auto',
+        base: 'min-w-[560px]',
+        th: 'text-gray-800 text-center py-3 text-nowrap',
+        td: 'text-center text-gray-500 py-2.5',
+      }"
+      :columns="columns"
+      :data="formValues.order_list"
+      class="flex-1"
+      empty="暫無歷史記錄"
+    >
+      <template #name-cell="{ row }">
+        <div class="flex justify-start gap-1 items-center">
+          <UButton
+            color="info"
+            variant="outline"
+            square
+            class="p-1"
+            @click="handleEditItem(row.original as FormItem, row.index)"
+          >
+            <UIcon name="i-heroicons-pencil-square-20-solid" class="w-5 h-5" />
+          </UButton>
+          <p>{{ row.original.name }}</p>
+        </div>
+      </template>
+      <template #total-cell="{ row }">
+        <p>
+          {{
+            Number(row.original.price ?? 0) * Number(row.original.number ?? 0)
+          }}
+        </p>
+      </template>
+    </UTable>
+  </div>
 </template>

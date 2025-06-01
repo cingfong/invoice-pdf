@@ -21,7 +21,7 @@ const { resetForm } = useFormContext();
 
 // 當前彈窗是否開啟
 const isOpen = ref(false);
-const isHistoryLoading = ref(false);
+const isHistoryLoading = ref(true);
 
 // 歷史記錄列表
 const historyList = ref<FormOrderBody[]>([]);
@@ -36,6 +36,7 @@ onMounted(() => {
       method: "GET",
     }).then((res) => {
       historyList.value = res;
+      isHistoryLoading.value = false;
     });
   }
 });
@@ -62,13 +63,11 @@ const modal = overlay.create(ModalDelete, {
 
 // #region 刪除歷史記錄
 const handleDeleteItem = (id: number) => {
-  isHistoryLoading.value = true;
   $fetch(`/api/deleteOrder`, {
     method: "DELETE",
     body: { id },
   }).then(() => {
     modal.open();
-    isHistoryLoading.value = false;
   });
 };
 // #endregion

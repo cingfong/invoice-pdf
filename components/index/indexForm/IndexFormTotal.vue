@@ -10,7 +10,7 @@ const itemTotal = computed(() => {
   const _itemPrice = (props.editItem.price ?? 0) as number;
   const _itemNumber = (props.editItem.number ?? 0) as number;
   // 處理雙晶浮點數
-  return (_itemPrice * 100 * _itemNumber * 100) / 10000;
+  return (_itemPrice * 1000 * (_itemNumber * 1000)) / 1000000;
 });
 </script>
 <template>
