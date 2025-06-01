@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   try{
   const result = await pool
     .query('SELECT * FROM "users" WHERE token = $1', [token])
-    return result.rows as UserInfo[]
+    return result.rows[0] as UserInfo
 
   }catch(error){
     console.error(error)
