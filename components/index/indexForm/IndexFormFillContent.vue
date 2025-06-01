@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, toRaw, useFormContext } from "#imports";
 import { watchImmediate } from "@vueuse/core";
-import { IndexIndexFormTotal } from "#components";
+import IndexFormTotal from "@/components/index/indexForm/IndexFormTotal.vue";
 import IndexFormButtons from "@/components/index/indexForm/IndexFormButtons.vue";
 import type { FormItem, FormItemKey } from "~/constant/form";
 
@@ -68,6 +68,9 @@ watchImmediate(
     editOrderItem.value = structuredClone(toRaw(value));
   }
 );
+// #endregion
+
+// #region 清空欄位
 const removeFormItem = () => {
   setFieldValue("order_item_index", undefined);
   setFieldValue("order_item", {
@@ -80,28 +83,38 @@ const removeFormItem = () => {
     itemTotal: undefined,
   });
 };
+// #endregion
 
+// #region 新增項目
 const handleAddFormList = () => {
   setFieldValue("order_list", [...formValues.order_list, editOrderItem.value]);
   removeFormItem();
 };
+// #endregion
 
+// #region 更新項目
 const handleUpdateFormList = () => {
   const _orderList = structuredClone(toRaw(formValues.order_list));
   _orderList[formValues.order_item_index] = editOrderItem.value;
   setFieldValue("order_list", _orderList);
   removeFormItem();
 };
+// #endregion
 
+// #region 刪除項目
 const handleDeleteFormList = () => {
   const _orderList = structuredClone(toRaw(formValues.order_list));
   _orderList.splice(formValues.order_item_index, 1);
   setFieldValue("order_list", _orderList);
   removeFormItem();
 };
+// #endregion
 
+// #region 判斷是否為編輯狀態
 const isEdit = computed(() => formValues.order_item_index !== undefined);
+// #endregion
 
+// #region 輸入欄位
 const handleInputOrderItem = () => {
   if (!isEdit.value) return;
   const _orderList = structuredClone(toRaw(formValues.order_list));
@@ -109,6 +122,7 @@ const handleInputOrderItem = () => {
   _orderList[formValues.order_item_index] = _editItem;
   setFieldValue("order_list", _orderList);
 };
+// #endregion
 </script>
 <template>
   <div v-for="inputItem in inputList" :key="inputItem.model" class="mb-4">
@@ -132,7 +146,7 @@ const handleInputOrderItem = () => {
       @input="handleInputOrderItem"
     />
   </div>
-  <IndexIndexFormTotal :edit-item="editOrderItem" />
+  <IndexFormTotal :edit-item="editOrderItem" />
   <IndexFormButtons
     :is-edit="isEdit"
     @add-form-list="handleAddFormList"

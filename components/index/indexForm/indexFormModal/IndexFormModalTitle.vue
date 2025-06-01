@@ -5,12 +5,10 @@ import { useCookies } from "@vueuse/integrations/useCookies";
 import IndexFormModalHistory from "@/components/index/indexForm/indexFormModal/IndexFormModalHistory.vue";
 import IndexFormModalLogin from "@/components/index/indexForm/indexFormModal/IndexFormModalLogin.vue";
 
-const { values: formValues, setFieldValue } = useFormContext();
-
 const cookie = useCookies([COOKIE_KEY.TOKEN]);
-const token = cookie.get(COOKIE_KEY.TOKEN);
+const userAuth = computed(() => !!cookie.get(COOKIE_KEY.TOKEN));
 
-const userAuth = computed(() => !!token);
+const { values: formValues, setFieldValue } = useFormContext();
 
 const toggleFormType = () => {
   setFieldValue("order_type", !formValues.order_type);
@@ -104,7 +102,7 @@ const closeModal = () => {
           class="transition-colors"
           @click="toggleFormType"
         >
-          切換成{{ !formValues.formType ? "請款單" : "報價單" }}
+          切換成{{ formValues.order_type ? "報價單" : "請款單" }}
         </UButton>
       </div>
     </template>

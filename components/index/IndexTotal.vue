@@ -9,7 +9,7 @@ const { values: formValues, resetForm } = useFormContext();
 const listTotal = computed(() => {
   return formValues.order_list.reduce(
     (total: number, item: FormItem) =>
-      total + (Number(item.price ?? 0) as number),
+      total + Number(item.price ?? 0) * Number(item.number ?? 0),
     0
   );
 });
@@ -19,7 +19,7 @@ const listTax = computed(() => {
 });
 
 const listTaxIncluded = computed(() => {
-  return listTotal.value + listTax.value;
+  return Math.round(listTotal.value + listTax.value);
 });
 const cancelEdit = () => {
   resetForm({
@@ -49,7 +49,9 @@ const cancelEdit = () => {
     >
       <UIcon name="i-heroicons-banknotes" class="w-5 h-5 text-red-700" />
       <span>合計：</span>
-      <span class="font-semibold text-red-700">{{ listTotal }}</span>
+      <span class="font-semibold text-red-700">{{
+        Math.round(listTotal)
+      }}</span>
     </div>
 
     <div

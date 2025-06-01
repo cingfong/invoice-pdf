@@ -36,7 +36,7 @@ watch(isOpen, (newVal) => {
 });
 
 const onLogin = handleSubmit(async (values) => {
-  await $fetch("/api/user", {
+  await $fetch("/api/login", {
     method: "POST",
     body: {
       password: values.password,
