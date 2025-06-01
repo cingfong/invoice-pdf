@@ -8,10 +8,9 @@ export type FormOrderBody = {
   updated_at: string;
   order_list: FormItem[];
   order_title: string;
-  token: string;
-  disable:boolean;
-  user_id:number;
   order_type:boolean;
+  token: string;
+  user_id:number;
 }
 
 export default defineEventHandler(async (event) => {
@@ -19,12 +18,29 @@ export default defineEventHandler(async (event) => {
   const token = getCookie(event, COOKIE_KEY.TOKEN);
   
   try {
-    const result = await pool.query('DELETE FROM "history_order" WHERE "id" = $1 AND "token" = $2', [body.id, token])
+    const result = await pool.query(
+      `UPDATE "history_order" 
+       SET "order_title" = $1,
+           "updated_at" = CURRENT_TIMESTAMP,
+           "order_list" = $2,
+           "order_type" = $3,
+           "disable" = true,
+           "user_id" = $4
+       WHERE "id" = $5 AND "token" = $6`,
+      [
+        body.order_title,
+        JSON.stringify(body.order_list),
+        body.order_type,
+        body.user_id,
+        body.id,
+        token
+      ]
+    )
     
     if (result.rowCount === 0) {
       throw createError({
         statusCode: 403,
-        message: '無權限刪除此訂單或訂單不存在'
+        message: '無權限更新此訂單或訂單不存在'
       })
     }
     
