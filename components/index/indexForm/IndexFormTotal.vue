@@ -19,6 +19,8 @@ const itemTotal = computed(() => {
   >
     <UIcon name="i-heroicons-calculator" class="w-5 h-5 text-emerald-600" />
     <span>小計：</span>
-    <span class="font-semibold text-emerald-700">{{ itemTotal }}</span>
+    <span class="font-semibold text-emerald-700">
+      {{ Math.round(itemTotal) }}
+    </span>
   </div>
 </template>
