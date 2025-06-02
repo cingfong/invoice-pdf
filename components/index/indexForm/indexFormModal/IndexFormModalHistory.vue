@@ -97,6 +97,13 @@ const columns = [
   {
     accessorKey: "order_title",
     header: "抬頭名稱",
+    cell: ({ row }: { row: TableRow<FormOrderBody> }) => {
+      return h(
+        "div",
+        { class: "text-center" },
+        `${row.original.order_title}${row.original.order_type ? "請款單" : "報價單"}`
+      );
+    },
   },
   {
     accessorKey: "action",

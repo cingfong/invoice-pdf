@@ -18,7 +18,7 @@ const formTypeString = computed(() =>
   formValues.order_type ? "請款單" : "報價單"
 );
 
-const isOpen = ref(false);
+const isOpen = ref(true);
 const formTitle = ref(undefined);
 
 // 關閉彈窗時，清空 input 資料
