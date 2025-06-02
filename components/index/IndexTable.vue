@@ -151,6 +151,8 @@ const handleEditItem = (column: FormItem, index: number) => {
         root: 'overflow-auto',
         base: 'min-w-[560px]',
         th: 'text-gray-800 text-center py-3 text-nowrap',
+        tr: 'border-0 border-t-1 border-slate-200',
+        tbody: '!border-0',
         td: 'text-center text-gray-500 py-2.5',
       }"
       :columns="columns"

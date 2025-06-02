@@ -66,7 +66,7 @@ const cancelEdit = () => {
     </div>
 
     <div
-      class="flex items-center gap-2 mt-3 pt-3 p-2 rounded-lg text-base font-semibold border-t border-slate-300 text-slate-800 hover:bg-slate-50 transition-colors"
+      class="flex items-center gap-2 mt-3 pt-3 p-2 text-base font-semibold border-t border-slate-300 text-slate-800 hover:bg-slate-50 transition-colors"
     >
       <UIcon name="i-heroicons-banknotes" class="w-5 h-5 text-green-700" />
       <span>總計：</span>

@@ -161,9 +161,7 @@ export const initialFormData = {
       </div>
 
       <!-- 施工項目表格 -->
-      <div
-        class="my-5 border border-slate-200 rounded-xl overflow-hidden bg-white shadow-md"
-      >
+      <div class="my-5 rounded-xl overflow-hidden bg-white shadow-md">
         <IndexTable />
       </div>
 
