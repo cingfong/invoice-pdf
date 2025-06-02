@@ -103,7 +103,6 @@ const columns: Column[] = [
   {
     accessorKey: "total",
     text: "小計",
-
     header: () =>
       h("div", { class: "flex items-center justify-center gap-2" }, [
         h(UIcon, {
@@ -177,7 +176,9 @@ const handleEditItem = (column: FormItem, index: number) => {
       <template #total-cell="{ row }">
         <p>
           {{
-            Number(row.original.price ?? 0) * Number(row.original.number ?? 0)
+            Math.round(
+              Number(row.original.price ?? 0) * Number(row.original.number ?? 0)
+            )
           }}
         </p>
       </template>
