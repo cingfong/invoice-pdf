@@ -2,6 +2,7 @@
 import { useAsyncData } from "#app";
 import { useForm } from "#imports";
 import { computed } from "vue";
+import { whenever } from "@vueuse/core";
 import { createPDF } from "~/utils/createPdf";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import IndexFormFillContent from "~/components/index/indexForm/IndexFormFillContent.vue";
@@ -14,12 +15,12 @@ import type { UserInfo } from "~/server/api/userInfo.get";
 
 // #region 取得使用者資訊
 const cookie = useCookies([COOKIE_KEY.TOKEN]);
-const token = cookie.get(COOKIE_KEY.TOKEN);
+const token = computed(() => cookie.get(COOKIE_KEY.TOKEN));
 
 const { data: userInfo, execute } = await useAsyncData(
   "usersInfo",
   () =>
-    $fetch<UserInfo>(`/api/userInfo?token=${token}`, {
+    $fetch<UserInfo>(`/api/userInfo?token=${token.value}`, {
       method: "GET",
     }),
   {
@@ -29,7 +30,9 @@ const { data: userInfo, execute } = await useAsyncData(
   }
 );
 
-if (token) execute();
+whenever(token, () => {
+  if (token.value) execute();
+});
 // #endregion
 
 // #region 初始化表單
@@ -77,9 +80,9 @@ const handleUpdateOrder = () => {
       order_list: formValues.order_list,
       order_title: formTitle.value,
       order_type: formValues.order_type,
-      token: token,
+      token: token.value,
       user_id: userInfo.value?.id,
-      disable: true,
+      is_visible: true,
     },
   });
 };
@@ -93,9 +96,9 @@ const handleCreateOrder = () => {
       order_list: formValues.order_list,
       order_title: formTitle.value,
       order_type: formValues.order_type,
-      token: token,
+      token: token.value,
       user_id: userInfo.value?.id,
-      disable: true,
+      is_visible: true,
     },
   });
 };
@@ -103,7 +106,7 @@ const handleCreateOrder = () => {
 
 // #region 生成 PDF
 const submit = async () => {
-  if (token) {
+  if (token.value) {
     if (formValues.id) await handleUpdateOrder();
     else await handleCreateOrder();
   }

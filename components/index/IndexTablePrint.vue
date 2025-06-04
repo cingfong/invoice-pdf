@@ -30,7 +30,7 @@ const props = defineProps<IndexTablePrintProps>();
       >
         <td v-for="column in props.columns" :key="column.accessorKey">
           <template v-if="column.accessorKey === 'total'">
-            {{ Number(row?.price ?? 0) * Number(row?.number ?? 0) }}
+            {{ Math.round(Number(row?.price ?? 0) * Number(row?.number ?? 0)) }}
           </template>
           <template v-else>
             {{ row[column.accessorKey] }}

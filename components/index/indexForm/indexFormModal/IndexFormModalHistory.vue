@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, h } from "vue";
+import { ref, onMounted, h, computed } from "vue";
 import type { TableColumn, TableRow } from "@nuxt/ui";
 import { UButton } from "#components";
 import { useFormContext, useOverlay } from "#imports";
@@ -15,7 +15,7 @@ type IndexFormModalHistoryEmits = {
 const emit = defineEmits<IndexFormModalHistoryEmits>();
 
 const cookie = useCookies([COOKIE_KEY.TOKEN]);
-const token = cookie.get(COOKIE_KEY.TOKEN);
+const token = computed(() => cookie.get(COOKIE_KEY.TOKEN));
 
 const { resetForm } = useFormContext();
 
@@ -31,7 +31,7 @@ const { values: formValues } = useFormContext();
 
 // 獲取歷史記錄列表
 onMounted(() => {
-  if (token) {
+  if (token.value) {
     $fetch("/api/history", {
       method: "GET",
     }).then((res) => {
@@ -65,7 +65,7 @@ const modal = overlay.create(ModalDelete, {
 const handleDeleteItem = (id: number) => {
   $fetch(`/api/deleteOrder`, {
     method: "DELETE",
-    body: { id },
+    body: { id, token: token.value },
   }).then(() => {
     modal.open();
   });
