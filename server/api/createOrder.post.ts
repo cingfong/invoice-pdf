@@ -9,8 +9,8 @@ export default defineEventHandler(async (event) => {
 
 
     const result = await pool.query(
-      `INSERT INTO "history_order" ("order_title", "token", "user_id", "order_type", "order_list", "disable", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *`, 
-      [body.order_title, body.token, body.user_id, body.order_type, JSON.stringify(body.order_list), body.disable])
+      `INSERT INTO "history_order" ("order_title", "token", "user_id", "order_type", "order_list", "is_visible", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *`, 
+      [body.order_title, body.token, body.user_id, body.order_type, JSON.stringify(body.order_list), body.is_visible])
     return result.rows
   } catch (error) {
     console.error(error)

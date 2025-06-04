@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   const token = getCookie(event, COOKIE_KEY.TOKEN);
   try{
   const result = await pool
-    .query('SELECT * FROM "history_order" WHERE token = $1', [token])
+    .query('SELECT * FROM "history_order" WHERE token = $1 AND is_visible = true ORDER BY "updated_at" DESC', [token])
     return result.rows as FormOrderBody[]
 
   }catch(error){
