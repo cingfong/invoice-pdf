@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
            "updated_at" = CURRENT_TIMESTAMP,
            "order_list" = $2,
            "order_type" = $3,
-           "disable" = true,
+           "is_visible" = true,
            "user_id" = $4
        WHERE "id" = $5 AND "token" = $6`,
       [

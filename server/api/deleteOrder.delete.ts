@@ -9,7 +9,7 @@ export type FormOrderBody = {
   order_list: FormItem[];
   order_title: string;
   token: string;
-  disable:boolean;
+  is_visible:boolean;
   user_id:number;
   order_type:boolean;
 }
@@ -19,7 +19,8 @@ export default defineEventHandler(async (event) => {
   const token = getCookie(event, COOKIE_KEY.TOKEN);
   
   try {
-    const result = await pool.query('DELETE FROM "history_order" WHERE "id" = $1 AND "token" = $2', [body.id, token])
+    const result = await pool.query('UPDATE "history_order" SET "is_visible" = false,"updated_at" = CURRENT_TIMESTAMP WHERE "id" = $1 AND "token" = $2', [body.id, token])
+
     
     if (result.rowCount === 0) {
       throw createError({
