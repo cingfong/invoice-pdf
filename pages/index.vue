@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useAsyncData } from "#app";
 import { useForm } from "#imports";
+import { watchImmediate } from "@vueuse/core";
 import { computed } from "vue";
-import { whenever } from "@vueuse/core";
 import { createPDF } from "~/utils/createPdf";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import IndexFormFillContent from "~/components/index/indexForm/IndexFormFillContent.vue";
@@ -30,9 +30,12 @@ const { data: userInfo, execute } = await useAsyncData(
   }
 );
 
-whenever(token, () => {
-  if (token.value) execute();
-});
+watchImmediate(
+  () => token,
+  () => {
+    if (token.value) execute();
+  }
+);
 // #endregion
 
 // #region 初始化表單
