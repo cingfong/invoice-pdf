@@ -25,17 +25,14 @@ const { data: userInfo, execute } = await useAsyncData(
     }),
   {
     server: false,
-    immediate: true,
+    immediate: false,
     transform: (data) => data,
   }
 );
 
-watchImmediate(
-  () => token,
-  () => {
-    if (token.value) execute();
-  }
-);
+watchImmediate(token, () => {
+  if (token.value) execute();
+});
 // #endregion
 
 // #region 初始化表單
@@ -155,6 +152,7 @@ export const initialFormData = {
 </script>
 <template>
   <form class="max-w-xl mx-auto min-h-screen p-0">
+    {{ token }}
     <div
       class="bg-slate-200 bg-opacity-90 rounded-lg p-5 m-4 shadow-lg backdrop-blur-sm"
     >
